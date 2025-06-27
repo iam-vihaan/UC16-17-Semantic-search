@@ -1,6 +1,6 @@
 variable "bucket_name" {
   type = string
-  default = "semeantic-search"
+  default = "UC16-semeantic-search"
 }
 variable "tags" {
   type = map(string)
