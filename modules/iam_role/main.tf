@@ -28,6 +28,7 @@ resource "aws_iam_role_policy" "custom_inline" {
   policy = arn:aws:iam::784733659029:role/lambda-role
 }
 
-# output "iam_role_arn" {
-#   value = aws_iam_role.this.arn
-# }
+resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
+  role       = aws_iam_role.this.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
