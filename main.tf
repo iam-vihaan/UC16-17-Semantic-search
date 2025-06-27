@@ -1,8 +1,10 @@
 module "raw_s3_bucket" {
-  source      = "./modules/s3"
-  bucket_name = var.raw_bucket_name
-  tags        = var.tags
+  source           = "./modules/s3"
+  bucket_name      = "semantic-search-raw-ddd"
+  tags             = var.tags
+  lambda_role_arn  = module.iam_role.iam_role_arn  # or aws_iam_role.this.arn if not using a module
 }
+
 
 module "vpc" {
   source                = "./modules/vpc"
