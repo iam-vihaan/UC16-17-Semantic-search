@@ -20,13 +20,24 @@ resource "aws_iam_role_policy_attachment" "this" {
 
 
 resource "aws_iam_role_policy" "custom_inline" {
-  count = var.inline_policy != null ? 1 : 0
-
   name = "${var.role_name}-inline"
   role = aws_iam_role.this.id
 
-  policy = arn:aws:iam::784733659029:role/lambda-role
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "s3:GetObject",
+          "secretsmanager:GetSecretValue"
+        ],
+        Resource = "*"
+      }
+    ]
+  })
 }
+
 
 resource "aws_iam_role_policy_attachment" "lambda_s3_access" {
   role       = aws_iam_role.this.name
