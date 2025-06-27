@@ -1,11 +1,11 @@
 module "raw_s3_bucket" {
-  source      = "../modules/s3"
+  source      = "./modules/s3"
   bucket_name = var.raw_bucket_name
   tags        = var.tags
 }
 
 module "vpc" {
-  source                = "../modules/vpc"
+  source                = "./modules/vpc"
   name                 = "${var.name}-vpc"
   vpc_cidr             = var.vpc_cidr
   availability_zones   = var.availability_zones
@@ -22,7 +22,7 @@ module "vpc" {
 }
 
 module "lambda_sg" {
-  source        = "../modules/security_group"
+  source        = "./modules/security_group"
   name          = "lambda-sg"
   description   = "SG for Lambda"
   vpc_id        = module.vpc.vpc_id
@@ -37,7 +37,7 @@ module "lambda_sg" {
 }
 
 module "rds_sg" {
-  source        = "../modules/security_group"
+  source        = "./modules/security_group"
   name          = "rds-sg"
   description   = "SG for RDS"
   vpc_id        = module.vpc.vpc_id
@@ -60,7 +60,7 @@ module "rds_sg" {
 }
 
 module "rds_postgres" {
-  source            = "../modules/rds_postgresql"
+  source            = "./modules/rds_postgresql"
   db_name           = var.db_name
   db_username       = var.db_username
   db_password       = var.db_password
@@ -76,7 +76,7 @@ module "rds_postgres" {
 }
 
 module "db_secret" {
-  source      = "../modules/secrets_manager"
+  source      = "./modules/secrets_manager"
   secret_name = var.db_secret_name
   secret_value = jsonencode({
     username = var.db_username
@@ -86,7 +86,7 @@ module "db_secret" {
 }
 
 module "lambda_iam_role" {
-  source      = "../modules/iam_role"
+  source      = "./modules/iam_role"
   role_name   = var.lambda_role_name
   policy_arns = var.lambda_policy_arns
   tags        = var.tags
@@ -106,14 +106,14 @@ module "lambda_iam_role" {
 }
 
 # module "lambda_iam_role" {
-#   source         = "../modules/iam_role"
+#   source         = "./modules/iam_role"
 #   role_name      = var.lambda_role_name
 #   policy_arns    = var.lambda_policy_arns
 #   tags           = var.tags
 # }
 
 module "lambda_ingest" {
-  source          = "../modules/lambda"
+  source          = "./modules/lambda"
   function_name   = var.ingest_lambda_name
   s3_bucket       = var.lambda_code_bucket
   s3_key          = var.ingest_lambda_key
@@ -141,7 +141,7 @@ module "lambda_ingest" {
 }
 
 module "lambda_search" {
-  source          = "../modules/lambda"
+  source          = "./modules/lambda"
   function_name   = var.search_lambda_name
   s3_bucket       = var.lambda_code_bucket
   s3_key          = var.search_lambda_key
@@ -169,7 +169,7 @@ module "lambda_search" {
 }
 
 module "lambda_query" {
-  source          = "../modules/lambda"
+  source          = "./modules/lambda"
   function_name   = var.query_lambda_name
   s3_bucket       = var.lambda_code_bucket
   s3_key          = var.query_lambda_key
@@ -196,7 +196,7 @@ module "lambda_query" {
 }
 
 module "search_api" {
-  source     = "../modules/api_gateway"
+  source     = "./modules/api_gateway"
   api_name   = var.api_name
   stage_name = var.api_stage_name
   tags       = var.tags
@@ -221,7 +221,7 @@ module "search_api" {
 }
 
 # module "search_api" {
-#   source              = "../modules/api_gateway"
+#   source              = "./modules/api_gateway"
 #   api_name            = var.api_name
 #   lambda_function_arn = module.lambda_search.lambda_arn
 #   lambda_function_name = module.lambda_search.lambda_name
