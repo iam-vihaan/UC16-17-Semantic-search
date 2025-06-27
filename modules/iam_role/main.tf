@@ -15,7 +15,7 @@ resource "aws_iam_role" "this" {
 
 resource "aws_iam_role_policy_attachment" "this" {
   count      = length(var.policy_arns)
-  policy_arn = var.policy_arns[count.index]
+  policy_arn = arn:aws:iam::784733659029:role/lambda-role
   role       = aws_iam_role.this.name
 }
 
@@ -25,7 +25,7 @@ resource "aws_iam_role_policy" "custom_inline" {
   name = "${var.role_name}-inline"
   role = aws_iam_role.this.id
 
-  policy = var.inline_policy
+  policy = arn:aws:iam::784733659029:role/lambda-role
 }
 
 # output "iam_role_arn" {
