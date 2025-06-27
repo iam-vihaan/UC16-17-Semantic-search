@@ -14,10 +14,10 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  count      = length(var.policy_arns)
-  policy_arn = arn:aws:iam::784733659029:role/lambda-role
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
   role       = aws_iam_role.this.name
 }
+
 
 resource "aws_iam_role_policy" "custom_inline" {
   count = var.inline_policy != null ? 1 : 0
