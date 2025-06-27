@@ -19,8 +19,9 @@ resource "aws_s3_bucket_policy" "lambda_access" {
           AWS = "arn:aws:iam::784733659029:role/lambda_exec_role"
         },
         Action = "s3:GetObject",
-        Resource = "arn:aws:s3:::lambda-code-bucket-ddd/*"
+        Resource = "${aws_s3_bucket.UC1617-semeantic-search.arn}/*"
       }
     ]
   })
 }
+
