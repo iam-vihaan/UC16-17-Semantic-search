@@ -16,7 +16,7 @@ resource "aws_s3_bucket_policy" "lambda_access" {
       {
         Effect = "Allow",
         Principal = {
-          AWS = "arn:aws:iam::784733659029:role/lambda_exec_role"
+          AWS = var.lambda_role_arn
         },
         Action = "s3:GetObject",
         Resource = "${aws_s3_bucket.UC1617-semeantic-search.arn}/*"
@@ -24,4 +24,5 @@ resource "aws_s3_bucket_policy" "lambda_access" {
     ]
   })
 }
+
 
